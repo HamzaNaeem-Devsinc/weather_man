@@ -33,21 +33,19 @@ def process_data_to_print(data_array)
 end
 
 def initialize_array(datas, data_array)
-  max_temp_arr = []
-  min_temp_arr = []
-  max_humid_arr = []
-  get_data_in_arrays(datas, max_temp_arr, min_temp_arr, max_humid_arr, data_array)
+  date_arr = get_in_arr(datas, 0, data_array)
+  max_temp_arr = get_in_arr(datas, 1, data_array)
+  min_temp_arr = get_in_arr(datas, 3, data_array)
+  max_humid_arr = get_in_arr(datas, 4, data_array)
+  display_max(date_arr, max_temp_arr, min_temp_arr, max_humid_arr, datas)
 end
 
-def get_data_in_arrays(datas, max_temp_arr, min_temp_arr, max_humid_arr, data_array)
-  date_arr = []
+def get_in_arr(_datas, index, data_array)
+  data = []
   data_array.each do |row|
-    date_arr << row.split(',')[0]
-    max_temp_arr << row.split(',')[1].to_i
-    min_temp_arr << row.split(',')[3].to_i
-    max_humid_arr << row.split(',')[7].to_i
+    data << row.split(',')[index]
   end
-  display_max(date_arr, max_temp_arr, min_temp_arr, max_humid_arr, datas)
+  data
 end
 
 def display_max(date_arr, max_temp_arr, min_temp_arr, _max_humid_arr, datas)

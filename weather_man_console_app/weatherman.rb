@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require_relative 'prints_the_chart'
-require_relative 'prints_average'
-require_relative 'prints_temperature'
+require_relative 'PrintTemperaturOfYear'
+require_relative 'PrintWeatherChart'
+require_relative 'PrintMonthlyAverage'
 require_relative 'supporting_methods'
 
 options = {}
@@ -31,18 +31,18 @@ unless File.directory?(file_path)
 end
 
 if options[:year]
-  s_year = options[:year]
-  data_array = get_data_in_arr(s_year, file_path)
+  time = options[:year]
+  data_array = load_data_from_file(time, file_path)
   PrintTemperaturOfYear.generate_year_report(data_array)
 
 elsif options[:month]
-  s_month = options[:month]
-  data_array = get_data_in_array(s_month, file_path)
+  time = options[:month]
+  data_array = load_data_from_file(time, file_path)
   PrintMonthlyAverage.generate_monthly_average(data_array)
 
 elsif options[:chart]
-  s_month = options[:chart]
-  data_array = get_data_in_array(s_month, file_path)
+  time = options[:chart]
+  data_array = load_data_from_file(time, file_path)
   PrintWeatherChart.generate_monthly_chart(data_array)
 
 end

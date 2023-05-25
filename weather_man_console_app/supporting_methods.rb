@@ -1,43 +1,61 @@
 # frozen_string_literal: true
 
 # Read File Method
-def get_data_in_array(s_month, file_path)
+def load_data_from_file(s_month, file_path)
   year, month = s_month.split('/')
-  mon = convert_m(month.to_i - 1)
-  file_pattern = "#{file_path}/#{file_path}_#{year}_#{mon}.txt"
+  if !month.nil?
+    mon = convert_months(month.to_i - 1)
+    file_pattern = "#{file_path}/#{file_path}_#{year}_#{mon}.txt"
+  else
+    file_pattern = "#{file_path}/#{file_path}_#{year}_*.txt"
+  end
   file_read(file_pattern, file_path)
-end
-
-def self.get_data_in_arr(s_year, filepath)
-  file_pattern = "#{filepath}/#{filepath}_#{s_year}_*.txt"
-  file_read(file_pattern, filepath)
 end
 
 def file_read(file_pattern, _filepath)
   data_array = []
-  Dir.glob(file_pattern) do |filepath|
-    File.open(filepath, 'r') do |file|
-      file.each_line do |line|
-        data_array << line.chomp
+  
+    Dir.glob(file_pattern) do |filepath|
+      File.open(filepath, 'r') do |file|
+        file.each_line do |line|
+          data_array << line.chomp
+        end
       end
     end
+  if data_array.empty?
+      puts "File not found or File is empty"
+      exit
   end
   data_array
 end
 
-# Convert 2022/01 to 2022_Jan
-def convert_m(month)
+def extract_elements(data_array, index)
+  arr = []
+  data_array.each do |row|
+    next if row.to_i.zero? || row == '' || row[0] > '9'
+
+    temp = row.split(',')[index]
+    arr << temp.to_i if temp
+  end
+  arr
+end
+
+def extract_string_elements(data_array, index)
+  arr = []
+  data_array.each do |row|
+    next unless row != 0 && !row.empty? && row[0] <= '9'
+
+    temp = row.split(',')[index]
+    arr << temp if temp
+  end
+  arr
+end
+
+def convert_months(month)
   arr = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]
   arr[month]
 end
 
-def get_average_of_array(arr)
+def compute_average(arr)
   arr.inject { |sum, el| sum + el } / arr.size
-end
-
-def fill_date_array(data_array, index, arr)
-  data_array.each do |row|
-    arr << row.split(',')[index]
-  end
-  arr
 end

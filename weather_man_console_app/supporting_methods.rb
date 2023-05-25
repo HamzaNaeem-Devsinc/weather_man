@@ -14,19 +14,23 @@ end
 
 def file_read(file_pattern, _filepath)
   data_array = []
-  
-    Dir.glob(file_pattern) do |filepath|
-      File.open(filepath, 'r') do |file|
-        file.each_line do |line|
-          data_array << line.chomp
-        end
+  Dir.glob(file_pattern) do |filepath|
+    File.open(filepath, 'r') do |file|
+      file.each_line do |line|
+        data_array << line.chomp
       end
     end
-  if data_array.empty?
-      puts "File not found or File is empty"
-      exit
   end
+  check_empty(data_array)
   data_array
+end
+
+# frozen_string_literal: true
+def check_empty(data_array)
+  return unless data_array.empty?
+
+  puts 'File not found or File is empty'
+  exit
 end
 
 def extract_elements(data_array, index)

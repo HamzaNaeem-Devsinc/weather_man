@@ -3,7 +3,7 @@
 require_relative 'supporting_methods'
 
 # print chart
-module PrintTemperaturOfYear
+module PrintTemperature
   def self.generate_year_report(data_array)
     @date_array = []
     @max_temperature = []

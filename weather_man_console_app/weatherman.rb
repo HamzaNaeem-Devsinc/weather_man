@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require_relative 'PrintTemperaturOfYear'
-require_relative 'PrintWeatherChart'
-require_relative 'PrintMonthlyAverage'
+require_relative 'print_temperature'
+require_relative 'print_weather_chart'
+require_relative 'print_monthly_average'
 require_relative 'supporting_methods'
 
 options = {}
@@ -33,7 +33,7 @@ end
 if options[:year]
   time = options[:year]
   data_array = load_data_from_file(time, file_path)
-  PrintTemperaturOfYear.generate_year_report(data_array)
+  PrintTemperature.generate_year_report(data_array)
 
 elsif options[:month]
   time = options[:month]

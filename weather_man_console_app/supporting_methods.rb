@@ -3,26 +3,27 @@
 # Read File Method
 def load_data_from_file(date, file_path, element)
   year, month = date.split('/')
-  
-  if element == '-e' && !month
-    file_pattern = "#{file_path}/#{file_path}_#{year}_*.txt"
-  elsif element == '-a' && month
-    valid_month(month)
-    month = convert_months(month.to_i - 1)
-    file_pattern = "#{file_path}/#{file_path}_#{year}_#{month}.txt"
-  elsif element == '-c' && month
-    valid_month(month)
-    month = convert_months(month.to_i - 1)
-    file_pattern = "#{file_path}/#{file_path}_#{year}_#{month}.txt"
-  else
-    puts "if you want to get chart or average. Please enter month as well"
-    puts "OR"
-    puts "if you want to get year temperature report. Please enter only year"
-    exit
-  end
-
-  
+  file_pattern = verify_cmd_input(month, year, file_path, element)
   read_files(file_pattern)
+end
+
+def verify_cmd_input(month, year, file_path, element)
+  if element == '-e' && !month
+    "#{file_path}/#{file_path}_#{year}_*.txt"
+  elsif ['-a', '-c'].include?(element) && month
+    valid_month(month)
+    month = convert_months(month.to_i - 1)
+    "#{file_path}/#{file_path}_#{year}_#{month}.txt"
+  else
+    print_note
+  end
+end
+
+def print_note
+  puts 'if you want to get chart or average. Please enter month as well'
+  puts 'OR'
+  puts 'if you want to get year temperature report. Please enter only year'
+  exit
 end
 
 def valid_month(month)

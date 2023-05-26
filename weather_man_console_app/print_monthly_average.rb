@@ -21,34 +21,32 @@ module PrintMonthlyAverage
       max_huidity_sum(get_value_from_array(row, 8))
     end
     print_output
-
   end
 
   def self.print_output
     puts " Hieghst Average : #{@max_temperature / @max_count}C"
     puts " Lowest Average : #{@min_temperature / @min_count}C"
-    puts " Average Humidity : #{@max_humidity / @max_humid_count}%"  
+    puts " Average Humidity : #{@max_humidity / @max_humid_count}%"
   end
 
   def self.max_array_sum(temp)
-    if temp && temp!= "" 
-      @max_count += 1
-      @max_temperature += temp.to_i
-    end
+    return unless temp && temp != ''
 
+    @max_count += 1
+    @max_temperature += temp.to_i
   end
 
   def self.min_array_sum(temp)
-    if temp && temp!= ""
-      @min_count += 1
-      @min_temperature += temp.to_i
-    end
+    return unless temp && temp != ''
+
+    @min_count += 1
+    @min_temperature += temp.to_i
   end
 
   def self.max_huidity_sum(temp)
-    if temp && temp!= ""
-      @max_humid_count += 1
-      @max_humidity += temp.to_i
-    end
+    return unless temp && temp != ''
+
+    @max_humid_count += 1
+    @max_humidity += temp.to_i
   end
 end

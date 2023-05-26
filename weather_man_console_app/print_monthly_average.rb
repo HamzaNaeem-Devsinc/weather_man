@@ -13,34 +13,42 @@ module PrintMonthlyAverage
     @max_humid_count = 0
   end
 
-  def self.generate_monthly_average(data_array)
+  def self.generate_weather_average(data_array)
     variables_declare
     data_array.each do |row|
-      max_array_sum(ret(row, 2))
-      min_array_sum(ret(row, 3))
-      max_huidity_sum(ret(row, 8))
+      max_array_sum(get_value_from_array(row, 1))
+      min_array_sum(get_value_from_array(row, 3))
+      max_huidity_sum(get_value_from_array(row, 8))
     end
-    puts " Hieghst Average : #{@max_temperature / @max_count} C"
-    puts " Lowest Average : #{@min_temperature / @min_count} C"
-    puts " Average Humidity : #{@max_humidity / @max_humid_count} %"
+    print_output
+
   end
 
-  def self.ret(row, index)
-    row.split(',')[index].to_i
+  def self.print_output
+    puts " Hieghst Average : #{@max_temperature / @max_count}C"
+    puts " Lowest Average : #{@min_temperature / @min_count}C"
+    puts " Average Humidity : #{@max_humidity / @max_humid_count}%"  
   end
 
   def self.max_array_sum(temp)
-    @max_count += 1
-    @max_temperature += temp
+    if temp && temp!= "" 
+      @max_count += 1
+      @max_temperature += temp.to_i
+    end
+
   end
 
   def self.min_array_sum(temp)
-    @min_count += 1
-    @min_temperature += temp
+    if temp && temp!= ""
+      @min_count += 1
+      @min_temperature += temp.to_i
+    end
   end
 
   def self.max_huidity_sum(temp)
-    @max_humid_count += 1
-    @max_humidity += temp
+    if temp && temp!= ""
+      @max_humid_count += 1
+      @max_humidity += temp.to_i
+    end
   end
 end

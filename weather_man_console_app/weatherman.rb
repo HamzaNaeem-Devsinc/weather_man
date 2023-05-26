@@ -17,15 +17,15 @@ end
 
 date = ARGV[1]
 file_path = ARGV[2]
-data_array = load_data_from_file(date, file_path)
+data_array = load_data_from_file(date, file_path, ARGV[0])
 
 case ARGV[0]
 when '-e'
   PrintTemperature.print_output(data_array)
 when '-a'
-  PrintMonthlyAverage.generate_monthly_average(data_array)
+  PrintMonthlyAverage.generate_weather_average(data_array)
 when '-c'
-  PrintWeatherChart.generate_monthly_chart(data_array, date)
+  PrintWeatherChart.generate_weather_chart(data_array, date)
 else
   puts 'Invalid Option'
 end

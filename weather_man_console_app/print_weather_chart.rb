@@ -1,34 +1,45 @@
 # frozen_string_literal: true
 
-# print chart
+# print_chart
 module PrintWeatherChart
-  def self.generate_monthly_chart(data_array)
-    # initialize
-    @max_temp_arr = []
-    @min_temp_arr = []
-
-    @max_temp_arr = extract_elements(data_array, 1)
-    @min_temp_arr = extract_elements(data_array, 3)
-
-    print_output
-    print_bonus_output
+  def self.generate_monthly_chart(data_array, date)
+    print_output(data_array, date)
+    print_output_bonus(data_array, date)
   end
 
-  def self.print_output
-    i = 0
-    @max_temp_arr.zip(@min_temp_arr).each do |arr1, arr2|
-      i += 1
-      puts "#{i} #{"\e[31m+\e[0m" * arr1} #{arr1}C"
-      puts "#{i} #{"\e[34m+\e[0m" * arr2} #{arr2}C"
+  def self.print_output(data_array, date)
+    @i = 0
+    puts date
+    data_array.each do |row|
+      find_max_temperature_and_date_in_array(ret(row, 1), ret(row, 3))
     end
   end
 
-  def self.print_bonus_output
-    puts '------------------------BonuS ParT----------------------------------'
-    j = 0
-    @max_temp_arr.zip(@min_temp_arr).each do |arr1, arr2|
-      j += 1
-      puts "#{j} #{"\e[34m+\e[0m" * arr2}#{"\e[31m+\e[0m" * arr1} #{arr1}C - #{arr2}C"
+  def self.print_output_bonus(data_array, date)
+    @j = 0
+    puts '---------Bonus Part---------'
+    puts date
+    data_array.each do |row|
+      bonus(ret(row, 1), ret(row, 3))
     end
+  end
+
+  def self.ret(row, index)
+    row.split(',')[index].to_i
+  end
+
+  def self.date_ret(row, index)
+    row.split(',')[index]
+  end
+
+  def self.find_max_temperature_and_date_in_array(max, min)
+    @i += 1
+    puts "#{@i} #{"\e[31m+\e[0m" * max.abs} #{max}C"
+    puts "#{@i} #{"\e[34m+\e[0m" * min.abs} #{min}C"
+  end
+
+  def self.bonus(max, min)
+    @j += 1
+    puts "#{@j} #{"\e[34m+\e[0m" * min.abs}#{"\e[31m+\e[0m" * max.abs} #{min}C - #{max}C"
   end
 end

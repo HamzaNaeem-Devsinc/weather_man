@@ -1,48 +1,31 @@
 # frozen_string_literal: true
 
-require 'optparse'
 require_relative 'print_temperature'
 require_relative 'print_weather_chart'
 require_relative 'print_monthly_average'
 require_relative 'supporting_methods'
 
-options = {}
-OptionParser.new do |opts|
-  opts.on('-e YEAR', '--year YEAR') do |year|
-    options[:year] = year
-  end
-  opts.on('-a YEAR/MONTH', '--average YEAR/MONTH') do |month|
-    options[:month] = month
-  end
-  opts.on('-c YEAR/MONTH', '--chart YEAR/MONTH') do |month|
-    options[:chart] = month
-  end
-end.parse!
-
-unless options[:year] || options[:month] || options[:chart]
+unless ARGV[0] && ARGV[1] && ARGV[2]
   puts 'Please provide valid command line options.'
   exit
 end
 
-file_path = ARGV[0]
-unless File.directory?(file_path)
+unless File.directory?(ARGV[2])
   puts 'Invalid directory path.'
   exit
 end
 
-if options[:year]
-  time = options[:year]
-  data_array = load_data_from_file(time, file_path)
-  PrintTemperature.generate_year_report(data_array)
+date = ARGV[1]
+file_path = ARGV[2]
+data_array = load_data_from_file(date, file_path)
 
-elsif options[:month]
-  time = options[:month]
-  data_array = load_data_from_file(time, file_path)
+case ARGV[0]
+when '-e'
+  PrintTemperature.print_output(data_array)
+when '-a'
   PrintMonthlyAverage.generate_monthly_average(data_array)
-
-elsif options[:chart]
-  time = options[:chart]
-  data_array = load_data_from_file(time, file_path)
-  PrintWeatherChart.generate_monthly_chart(data_array)
-
+when '-c'
+  PrintWeatherChart.generate_monthly_chart(data_array, date)
+else
+  puts 'Invalid Option'
 end

@@ -17,7 +17,7 @@ module PrintWeatherChart
 
   def self.print_output(max, min)
     @i += 1
-    return unless max && max != ''
+    return max == ''
 
     puts "#{@i} #{"\e[31m+\e[0m" * max.to_i.abs} #{max.to_i}C"
     puts "#{@i} #{"\e[34m+\e[0m" * min.to_i.abs} #{min.to_i}C"
@@ -34,7 +34,7 @@ module PrintWeatherChart
 
   def self.print_bonus_output(max, min)
     @j += 1
-    return unless max && max != ''
+    return if max == ''
 
     puts "#{@j} #{"\e[34m+\e[0m" * min.to_i.abs}#{"\e[31m+\e[0m" * max.to_i.abs} #{min.to_i}C - #{max.to_i}C"
   end

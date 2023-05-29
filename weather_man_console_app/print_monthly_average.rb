@@ -30,21 +30,21 @@ module PrintMonthlyAverage
   end
 
   def self.max_array_sum(temp)
-    return unless temp && temp != ''
+    return if temp == ''
 
     @max_count += 1
     @max_temperature += temp.to_i
   end
 
   def self.min_array_sum(temp)
-    return unless temp && temp != ''
+    return if temp == ''
 
     @min_count += 1
     @min_temperature += temp.to_i
   end
 
   def self.max_huidity_sum(temp)
-    return unless temp && temp != ''
+    return if temp == ''
 
     @max_humid_count += 1
     @max_humidity += temp.to_i
